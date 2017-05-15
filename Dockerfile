@@ -27,6 +27,7 @@ ENV LIBPHUTIL_GIT_SHA f568eb7b9542259cd3c0dcb3405cc9a83c90a2f5
 ENV REPOSITORY_LOCAL_PATH /repo
 # Runtime dependencies
 RUN apk --no-cache --update add \
+    bash \
     curl \
     freetype \
     libjpeg-turbo \
