@@ -60,7 +60,7 @@ RUN apk --no-cache add --virtual build-dependencies \
         mysqli \
         opcache \
         pcntl \
-    && pecl install apcu-4.0.11 \
+    && pecl install https://s3.amazonaws.com/net-mozaws-dev-mozphab-pecl-mirror/apcu-4.0.11.tgz \
     && docker-php-ext-enable apcu \
     && apk del build-dependencies
 
@@ -89,7 +89,7 @@ RUN { \
     } | tee /usr/local/etc/php/conf.d/phabricator.ini
 
 # add a non-privileged user for installing and running the application
-RUN addgroup -g 10001 app && adduser -D -u 10001 -G app -h /app app
+RUN addgroup -g 10001 app && adduser -D -u 10001 -G app -h /app -s /bin/sh app
 
 COPY . /app
 WORKDIR /app
@@ -114,4 +114,4 @@ RUN chmod +x /app/entrypoint.sh /app/wait-for-mysql.php \
     && chown -R app:app /app $REPOSITORY_LOCAL_PATH
 
 USER app
-VOLUME ["$REPOSITORY_LOCAL_PATH", "/app"]
+VOLUME ["$REPOSITORY_LOCAL_PATH"]
